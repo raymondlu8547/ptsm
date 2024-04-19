@@ -75,36 +75,18 @@ int main(int argc, char *argv[])
 	}
 	fclose(fptr);
 
-	//int num_visited = 1, visited_cities[MAX_C] = {}, cur_route[MAX_C] = {}, cur_path_length = 0;
-
-	int num_visited[MAX_C] = {};
-	for (i = 1 ; i < x ; i++)
-	{
-		num_visited[i] = 1;
-	}
-
-	int visited_cities[MAX_C][MAX_C];
-	for (i = 1 ; i < x ; i++)
-	{
-		visited_cities[i][0] = 1;
-	}
-
-	int cur_route[MAX_C][MAX_C];
-	int cur_path_length[MAX_C] = {};
-	
-	//visited_cities[0] = 1;
-	//cur_route[0] = 0;
-
-	omp_set_num_threads(t);
+	int num_visited = 1, visited_cities[MAX_C] = {}, cur_route[MAX_C] = {}, cur_path_length = 0;
+	visited_cities[0] = 1;
+	cur_route[0] = 0;
 
 	#pragma omp parallel for
 	for (i = 1 ; i < x ; i++)
 	{
-		visit(0, i, num_visited[i], visited_cities[i], cur_route[i], cur_path_length[i]);
-		//visited_cities[i] = 0;
-		//cur_route[num_visited] = 0;
+		visit(0, i, num_visited, visited_cities, cur_route, cur_path_length);
+		visited_cities[i] = 0;
+		cur_route[num_visited] = 0;
 	}
-
+	
 	printf("Best path: %d", min_route[0]);
 	for (i = 1 ; i < x ; i++)
 	{
