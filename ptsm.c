@@ -79,6 +79,8 @@ int main(int argc, char *argv[])
 	visited_cities[0] = 1;
 	cur_route[0] = 0;
 
+	omp_set_num_threads(t);
+
 	#pragma omp parallel for
 	for (i = 1 ; i < x ; i++)
 	{
@@ -86,7 +88,7 @@ int main(int argc, char *argv[])
 		visited_cities[i] = 0;
 		cur_route[num_visited] = 0;
 	}
-	
+
 	printf("Best path: %d", min_route[0]);
 	for (i = 1 ; i < x ; i++)
 	{
